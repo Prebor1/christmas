@@ -6,6 +6,30 @@
  *  Lekérjük a tableselectort, és regisztrálunk egy change eseménykezelőt!
  */
 
+const radio = document.getElementById("tableselector"); //id alapjan elkerjuk a divet
+radio.addEventListener("change", valtoztat)
+    
+function valtoztat(e){
+    const a = e.target
+    const html = document.getElementById("htmlsection")
+    const js = document.getElementById("jssection")
+
+    if (a.checked == true){
+        
+        if (a.value == "htmlsection"){
+            
+            html.classList.remove("hide")
+            js.classList.add("hide")
+        }
+
+        if (a.value == "jssection"){
+            js.classList.remove("hide")
+            html.classList.add("hide")
+        }
+    }
+}
+
+
 
 
 /**
@@ -19,7 +43,13 @@
  * @returns {void}
  */
 function initCheckbox(checkboxElem){
+    changeCheckboxValue(checkboxElem)
 
+    checkboxElem.addEventListener("change", function(e){
+
+        e.target = checkboxElem
+        changeCheckboxValue(checkboxElem)
+    })
 }
 
 /**
@@ -36,6 +66,14 @@ function initCheckbox(checkboxElem){
  */
 function changeCheckboxValue(checkbox){
 
+    const form = checkbox.parentElement.parentElement;
+    const mano2 = form.querySelector("#mano2");
+    const muszak2 = form.querySelector("#muszak2");
+ 
+    const enable = checkbox.checked === true;
+ 
+    mano2.disabled = !enable;
+    muszak2.disabled = !enable;
 }
 
 /**
@@ -48,6 +86,7 @@ function getSelectElement() {
     const htmlForm = document.getElementById('htmlform');
     const select = htmlForm.querySelector('#manochooser');
     return select;
+
 }
 
 /**
@@ -80,7 +119,10 @@ function initSelect(arr) {
  * @returns {void}
  */
 function createoption(selectElement, label, value = "") {
-
+    const option = document.createElement("option")
+    option.innerText = label
+    option.value = value
+    selectElement.appendChild(option)
 }
 
 /**
