@@ -29,9 +29,6 @@ function valtoztat(e){
     }
 }
 
-
-
-
 /**
  * Ez a függvény a javascript legvégén fut le, amikor már minden elem betöltött.
  * Első lépésben vizsgáljuk a checkbox értékét, és az alapján beállítjuk a többi elem
@@ -43,12 +40,13 @@ function valtoztat(e){
  * @returns {void}
  */
 function initCheckbox(checkboxElem){
-    changeCheckboxValue(checkboxElem)
+
+    changeCheckboxValue(checkboxElem);
 
     checkboxElem.addEventListener("change", function(e){
 
-        e.target = checkboxElem
-        changeCheckboxValue(checkboxElem)
+        e.target = checkboxElem;
+        changeCheckboxValue(checkboxElem);
     })
 }
 
@@ -108,6 +106,14 @@ function initSelect(arr) {
     const select = getSelectElement();
     select.innerHTML = '';
     createoption(select, "Válassz Manót!"); // ez a függvény még nincs implementálva, görgess lejjebb
+
+    for (const elem of arr) {
+        createoption(select, elem.who1, elem.who1);
+
+        if (elem.who2 !== undefined) {
+            createoption(select, elem.who2, elem.who2);
+        }
+    }
 }
 
 /**
@@ -146,11 +152,21 @@ function createoption(selectElement, label, value = "") {
  */
 function createNewElement(obj, form, array) {
 
+    const select = getSelectElement();
+    createoption(select, obj.who1, obj.who1);
+
     // ez egy ismerős rész, ehhez nem kell nyúlni
     array.push(obj);
     renderTbody(array);
     form.reset();
     // ismerős rész vége
+
+    if(obj.who2){
+        createoption(select, obj.who2, obj.who2);
+    }
+
+    const mano2 = form.querySelector("#masodikmano");
+    changeCheckboxValue(mano2);
 
 }
 
@@ -168,6 +184,19 @@ function createNewElement(obj, form, array) {
  * @returns {string}
  */
 function mapMuszak(muszakValue){
+
+    if(muszakValue === "1")
+    {
+        muszakValue = "Délelőttös";
+    }
+    else if (muszakValue === "2")
+    {
+        muszakValue = "Délutános";
+    }
+    else if (muszakValue === "3"){
+        muszakValue = "Éjszakai";
+    }
+
     console.log(muszakValue);
     return muszakValue;
 }
