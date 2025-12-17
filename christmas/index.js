@@ -23,7 +23,7 @@ const arr = [
     }
 ];
 
-
+//table elkeszitese
 
 const jsSection = document.createElement('div');
 jsSection.id = 'jssection';
@@ -96,4 +96,153 @@ function renderTableBody(array) {
 const form = document.createElement('form');
 jsSection.appendChild(form);
 form.id = 'jsform';
+
+form.appendChild(createInput("Osztály:", "munka"));
+form.appendChild(createInput("Manó 1:", "who1"));
+form.appendChild(createSelect("Manó 1 műszak:", "muszak1", ["Délelőttös", "Délutános", "Éjszakai"]));
+
+//hibas/hianyos
+form.appendChild(createCheckbox("Két manót veszek fel", "addMasodikmano"));
+
+form.appendChild(createInput("Manó 2:", "who2"));
+form.appendChild(createSelect("Manó 2 műszak:", "muszak2", ["Délelőttös", "Délutános", "Éjszakai"]));
+
+const hozzaadasGomb = document.createElement('button');//hibas/hianyos
+hozzaadasGomb.type = 'submit';
+hozzaadasGomb.innerText = 'Hozzaadas';
+form.appendChild(hozzaadasGomb);
+
+//segedfuggvenyek
+
+/**
+ * 
+ * @param {string} labelText 
+ * @param {string} Id 
+ * @returns 
+ */
+
+function createInput(labelText, Id) {
+
+    const div = document.createElement('div');
+
+    const label = document.createElement('label');
+    label.innerText = labelText;
+    label.htmlFor = Id;
+    div.appendChild(label);
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.id = Id;
+    div.appendChild(input);
+
+    const error = document.createElement('span');
+    error.className = 'error';
+    div.appendChild(error);
+
+    return div;
+}
+
+/**
+ * 
+ * @param {string} labelText 
+ * @param {string} Id 
+ * @param {string[]} options 
+ * @returns 
+ */
+
+function createSelect(labelText, Id, options) {
+
+    const div = document.createElement('div');
+
+    const label = document.createElement('label');
+    label.innerText = labelText;
+    label.htmlFor = Id;
+    div.appendChild(label);
+
+    const select = document.createElement('select');
+    select.id = Id;
+    div.appendChild(select);
+
+    for (let optionText of options) {
+        const option = document.createElement('option');
+        option.innerText = optionText;
+        option.value = optionText;
+        select.appendChild(option);
+    }
+
+    const error = document.createElement('span');
+    error.className = 'error';
+    div.appendChild(error);
+
+    return div;
+}
+
+/**
+ * 
+ * @param {string} labelText 
+ * @param {string} Id 
+ * @returns 
+ */
+
+function createCheckbox(labelText, Id) {
+
+    const div = document.createElement('div');
+    form.appendChild(div);
+
+    const label = document.createElement('label');
+    label.innerText = labelText;
+    label.htmlFor = Id;
+    div.appendChild(label);
+
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.id = Id;
+    div.appendChild(input);
+
+    return input, div;
+}
+
+//validalas fuggvenyek
+
+/**
+ * 
+ * @param {HTMLInputElement} input 
+ * @returns {boolean}
+ */
+function validateField(input) {
+    let valid = true;
+
+    if (input.value === "") {
+        const div = input.parentElement;
+        const message = div.querySelector('.error');
+        if (message) {
+            message.innerText = "Mező kitöltése kötelező!";
+        }
+        valid = false;
+    }
+
+    return valid;
+}
+
+/**
+ * 
+ * @param {HTMLInputElement} input1
+ * @param {HTMLInputElement} input2
+ * @param {HTMLInputElement} input3
+ */
+function validateFields(input1, input2, input3) {
+
+    let valid = true;
+
+    if (!validateField(input1)) {
+        valid = false;
+    }
+    if (!validateField(input2)) {
+        valid = false;
+    }
+    if (!validateField(input3)) {
+        valid = false;
+    }
+    return valid;
+}
 
