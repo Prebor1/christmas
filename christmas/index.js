@@ -1,5 +1,5 @@
 /**
- * @type {{what:string, who1:string, muszak1:string, who2?:string, muszak2?:string}}
+ * @type {{munka:string, who1:string, muszak1:string, who2?:string, muszak2?:string}}
  */
 const arr = [
     {
@@ -52,6 +52,11 @@ const tbody = document.createElement('tbody');
 table.appendChild(tbody);
 
 renderTableBody(arr);
+
+/**
+ * 
+ * @param {{munka:string, who1:string, muszak1:string, who2?:string, muszak2?:string}[]} array 
+ */
 
 function renderTableBody(array) {
 
